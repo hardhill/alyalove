@@ -36,4 +36,15 @@ class Article extends Model
     public static function allPagination($n){
         return Article::with('tags','state')->orderBy('created_at','desc')->paginate($n);
     }
+
+    public static function findBySlug($slug)
+    {
+        $model = Article::with('comments', 'tags','state')->where('slug',$slug)->firstOrFail();
+        return $model;
+    }
+    public static function findByTag(Tag $tag)
+    {
+        $model = $tag->articles()->with('tags','state')->orderByDesc('created_at')->paginate(10);
+        return $model;
+    }
 }
