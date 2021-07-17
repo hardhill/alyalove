@@ -4,17 +4,28 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export default new Vuex.Store({
     state:{
-        article:{}
+        article:{
+            comments:[],
+            tags:[],
+            statistic:{
+                likes:0,
+                views:0
+            }
+        },
+        slug:''
     },
     mutations:{
         SET_ARTICLE(state,payload){
             state.article = payload
+        },
+        SET_SLUG(state,payload){
+            state.slug = payload
         }
     },
     actions:{
-        getArticleData({commit}){
-            axios.get('/api/article-json',(res)=>{
-                commit('SET_ARTICLE',res.data.data)
+        async getArticleData(context,payload){
+            await axios.get('/api/article-json',{params:{'slug':payload}}).then((res)=>{
+               context.commit('SET_ARTICLE',res.data.data)
             }).catch((err)=>{
                 console.log(err)
             })
@@ -22,16 +33,11 @@ export default new Vuex.Store({
         }
     },
     getters:{
-        getArticleLikes(state){
-            if(state.article.statistic){
-                return state.article.statistic.likes
-            }
+        getArticle:state=>state.article,
 
-        },
-        getArticleViews(state){
-            if(state.article.statistic){
-                return state.article.statistic.views
-            }
-        }
+        getArticleLikes:state =>state.article.statistic.likes,
+
+        getArticleViews:state=>state.article.statistic.views
+
     }
 })

@@ -1,7 +1,6 @@
 <template>
     <div class="row mt-5">
         <div class="col-12 p-3">
-            <article-component></article-component>
             <img :src="article.img" alt="" class="border rounded mx-auto d-block">
             <h5 class="mt-5">{{article.title}}</h5>
             <p>
@@ -22,10 +21,10 @@
 
 <script>
     export default {
-        name: "ArticleComponent",
+
         computed:{
             article(){
-                return this.$store.state.article
+                return this.$store.getters.getArticle
             },
             tagsLen(){
                 return this.$store.state.article.tags.length
