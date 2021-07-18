@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div id="app">
+{{--        <view-slug slug="{{$article->slug}}"></view-slug>--}}
         <article-component></article-component>
         <hr>
         <div class="row">

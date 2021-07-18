@@ -12,29 +12,24 @@
             <p class="card-text">{{article.body}}</p>
             <p>Опубликовано: <i>{{article.created_at}}</i></p>
             <div class="mt-3">
-                <span class="badge bg-primary">{{likes}} <i class="far fa-thumbs-up"></i></span>
-                <span class="badge bg-danger">{{views}} <i class="far fa-eye"></i></span>
+                <views-component></views-component>
+                <likes-component></likes-component>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
 
+    export default {
         computed:{
             article(){
                 return this.$store.getters.getArticle
             },
             tagsLen(){
                 return this.$store.state.article.tags.length
-            },
-            likes(){
-                return this.$store.getters.getArticleLikes
-            },
-            views(){
-                return this.$store.getters.getArticleViews
             }
+
         }
     }
 </script>

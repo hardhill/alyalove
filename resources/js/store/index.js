@@ -12,7 +12,8 @@ export default new Vuex.Store({
                 views:0
             }
         },
-        slug:''
+        slug:'',
+        likeIt:true
     },
     mutations:{
         SET_ARTICLE(state,payload){
@@ -20,6 +21,9 @@ export default new Vuex.Store({
         },
         SET_SLUG(state,payload){
             state.slug = payload
+        },
+        SET_LIKE(state,payload){
+            state.likeIt = payload
         }
     },
     actions:{
@@ -30,6 +34,24 @@ export default new Vuex.Store({
                 console.log(err)
             })
 
+        },
+        viewsIncrement(context,payload){
+            setTimeout(()=>{
+
+                axios.put('/api/article-views-increment',{slug:payload}).then((response)=>{
+                    context.commit('SET_ARTICLE',response.data.data)
+                }).catch((err)=>{
+                    console.log('Error: ',err)
+                })
+            },5000)
+        },
+        addLike(context,payload){
+            axios.put('/api/article-likes-increment',{slug:payload.slug,increment:payload.increment}).then((response)=>{
+                    context.commit('SET_ARTICLE',response.data.data)
+                    context.commit('SET_LIKE',!context.state.likeIt)
+            }).catch(err=>{
+                console.log(err)
+            })
         }
     },
     getters:{

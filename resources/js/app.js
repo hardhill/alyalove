@@ -7,6 +7,9 @@ import store from './store'
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('article-component', require('./components/ArticleComponent.vue').default);
+Vue.component('views-component',require('./components/ViewsComponent').default)
+Vue.component('likes-component',require('./components/LikesComponent').default)
+Vue.component('view-slug',require('./components/ViewSlug').default)
 
 const app = new Vue({
     store,
@@ -16,6 +19,7 @@ const app = new Vue({
         let slug = url.substring(url.lastIndexOf('/')+1)
         this.$store.commit('SET_SLUG',slug)
         this.$store.dispatch('getArticleData',slug)
+        this.$store.dispatch('viewsIncrement',slug)
 
     }
 });
