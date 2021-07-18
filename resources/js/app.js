@@ -6,10 +6,11 @@ window.Vue = require('vue').default;
 import store from './store'
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('article-component', require('./components/ArticleComponent.vue').default);
+Vue.component('article-component', require('./components/ArticleComponent.vue').default)
 Vue.component('views-component',require('./components/ViewsComponent').default)
 Vue.component('likes-component',require('./components/LikesComponent').default)
 Vue.component('view-slug',require('./components/ViewSlug').default)
+Vue.component('comment-component',require('./components/CommentComponent').default)
 
 const app = new Vue({
     store,

@@ -10,10 +10,13 @@ export default new Vuex.Store({
             statistic:{
                 likes:0,
                 views:0
-            }
+            },
+            id:0
         },
         slug:'',
-        likeIt:true
+        likeIt:true,
+        commentSuccess:false,
+        errors:[]
     },
     mutations:{
         SET_ARTICLE(state,payload){
@@ -24,6 +27,9 @@ export default new Vuex.Store({
         },
         SET_LIKE(state,payload){
             state.likeIt = payload
+        },
+        SET_COMMENT_SUCCESS(state,payload){
+            state.commentSuccess = payload
         }
     },
     actions:{
@@ -51,6 +57,16 @@ export default new Vuex.Store({
                     context.commit('SET_LIKE',!context.state.likeIt)
             }).catch(err=>{
                 console.log(err)
+            })
+        },
+        addComment(context,payload){
+            axios.post('/api/article-add-comment',{subject:payload.subject, body:payload.body, article_id:payload.article_id}).then((request)=>{
+                context.commit('SET_COMMENT_SUCCESS',!context.state.commentSuccess)
+                context.dispatch('getArticleData',context.state.slug)
+            }).catch((err)=>{
+                if(err.response.status === 422){
+                    context.state.errors = err.response.data.errors
+                }
             })
         }
     },
